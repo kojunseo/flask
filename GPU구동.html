@@ -1,0 +1,693 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>RTX30gpu 텐서플로우 구동을 위한 서버 완벽 설치 가이드</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6b0d4ace-09f5-4925-b831-5abf218a6123" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🗿</span></div><h1 class="page-title">RTX30gpu 텐서플로우 구동을 위한 서버 완벽 설치 가이드</h1></header><div class="page-body"><p id="bd7af7d9-438e-4bbe-9976-050e640ff597" class="">Edited By : 서버요정 고준서</p><p id="7b2e14a3-cb13-44bf-9230-8b942093eb10" class="">이 모든 과정은 3일간의 텐서플로우 설치와 10번의 우분투 재설치를 통해 얻어진 방법입니다. 재설치하는거 진짜 힘드니까 GPU를 소중히 사용해주세요. 제발...</p><p id="210c82c9-d5d7-4392-b709-d7187b140a99" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cdb0e9bb-4f76-444a-9abe-6986a3cb3b4f"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">&lt;우분투 설치 ~ ssh 설정&gt;까지 완료한 이후에 진행하세요. </div></figure><p id="4a5f1e09-46fd-4493-9cd1-96e88155c850" class="">
+</p><blockquote id="1e75a7d8-fa1e-4152-acde-f0421fee0dda" class="">gpu는 쿠다 버전에 매우 예민하고, 텐서플로우는 더 예민합니다. 토치는 비교적 버전에 로버스트합니다. 서버를 통채로 초기화할 각오를 가지고 시작해주세요. 잘못되면 서버를 초기화하는게 제일  빠릅니다.</blockquote><p id="7aa6fbbf-f692-428e-a2a1-f9836b6c278b" class="">
+</p><p id="9401bb75-9ccd-48a1-8a03-2ffe66502d84" class="">서버 설치 환경</p><ol id="ce41eaa7-c4e0-4ac9-a986-2c4c342849eb" class="numbered-list" start="1"><li>Ubuntu 18.04 (x86 아키텍쳐)</li></ol><ol id="3f0bd5d5-0127-4694-8d15-11b6abb63179" class="numbered-list" start="2"><li>GPU: RTX 3090</li></ol><ol id="03de8d3d-26f4-4cc6-ad48-f550b78c9e2c" class="numbered-list" start="3"><li>작동 확인 일자: 2021년 1월 18일 </li></ol><ol id="32f68efb-e660-44b6-b4a0-06d8ffe7d1c8" class="numbered-list" start="4"><li>1080ti에서도 작동하는 것 확인(그대로 해도 됨)</li></ol><p id="20f3ce82-7725-43fd-ae1c-36dce2818b50" class="">
+</p><p id="8259c54f-c00f-4643-a316-8e5ac7d831aa" class="">서버를 처음부터 설치하는 경우 2번으로 가세요.</p><h3 id="2818d454-9006-4936-9440-998abad0a5fd" class="">1. Uninstall driver</h3><p id="72a7ba1c-f0ce-46d5-9d60-d270435f8af5" class="">cudnn까지 설치된 상태면 조금 힘듭니다.</p><p id="0cea8db6-7f5b-44e8-aa2d-4395050d0c12" class="">먼저 어떤 버전이 설치되어 있는지 확인해줍니다.</p><pre id="f4d0e7d7-f246-478e-85f4-64285f97731c" class="code"><code>apt --installed list | grep nvidia-driver
+
+# output
+# nvidia-driver-450/bionic-updates,bionic-security,now 440.100-0ubuntu0.18.04.1 amd64 [installed]</code></pre><p id="c9cee381-26af-4fca-8305-4d661ae233f5" class="">output과 같은 형태로 nvidia-driver가 감지될 것입니다. 그러면 우리가 잘못 설치한 버전은 450입니다. 본인이 이 명령어를 통해 직접 빌드버전을 확인해주어야 합니다. 본인이 잘못 설치한 버전의 빌드번호를 확인해주세요. 이건 cuda의 세부 빌드 번호입니다. cuda11.1 뭐 이런거에 붙은 버전과는 다른 의미입니다.</p><p id="4df4c9c6-d9d4-4577-827b-40c76ebb8352" class="">
+</p><pre id="885bd05c-f221-476c-9ff8-651b2ad03d64" class="code"><code>sudo apt remove nvidia-driver-&lt;설치된 버전&gt;
+sudo apt autoremove</code></pre><p id="a4620eee-f240-4c4e-831b-2cdac4685bbe" class=""> 만약 지우고싶은 빌드번호가 450이면 설치된 버전 자리에 450을 넣어주면 됩니다. 이 과정까지 끝나면 nvidia-driver가 지워집니다. nvidia-smi를 실행했을 때, nvidia명령어가 없다는 등의 메시지가 나오면 지워진 것입니다.</p><p id="560752cd-aa24-46cc-9168-5801e7933546" class="">
+</p><h3 id="f3aa51ac-0fc9-4231-acd9-a78403e4c45f" class="">2. nvidia-driver installation</h3><p id="d2fbe962-9251-449c-897c-532cd144b388" class="">본격적으로 nvidia-driver를 설치해봅시다.</p><p id="6488d38a-2686-400e-8019-9c161923c866" class="">rtx30시리즈는 쿠다 11.1버전과 완벽하게 호환되도록 되어있습니다. cuda, cudnn, tensorflow, cracking까지의 과정이 완벽하게 통해야 설치와 함께 gpu를 사용할 수 있게 됩니다.</p><p id="878b5253-8b6c-4444-a3f7-3eeada404dd4" class="">
+</p><p id="fa39b369-fb33-4b52-8b51-8b131d9456d7" class="">nvidia공식 사이트</p><p id="11745f3e-75a4-476d-8fff-74b5790c8e13" class=""><a href="https://developer.nvidia.com/cuda-11.1.1-download-archive">https://developer.nvidia.com/cuda-11.1.1-download-archive</a></p><p id="b18d8f20-1cd8-4ddf-8aba-71530813559d" class="">여기서 코드를 치셔도 됩니다. 저는 제가 설치했던 히스토리를 공유하겠습니다.</p><p id="6817a3ea-c0db-4fd9-9aa4-8076c8cf577e" class="">
+</p><p id="210b0d2e-fdbc-4d55-a008-764343abc197" class="">한 줄씩 치시면 됩니다.</p><pre id="0073fd3d-edb0-4f0c-8313-de48916f4c9f" class="code"><code>wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu1804-11-1-local_11.1.1-455.32.00-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1804-11-1-local_11.1.1-455.32.00-1_amd64.deb
+sudo apt-key add /var/cuda-repo-ubuntu1804-11-1-local/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda</code></pre><p id="e078e7d8-f131-4e53-ad18-0762b823f675" class="">
+</p><p id="bac7f3d4-2efa-4cd9-9ed7-236a1701c6d3" class="">여기까지 설치하면 cuda11.1이 설치가 되었습니다. nvidia-smi를 했을 때,</p><figure id="57d9cb2f-0fca-40f7-8a98-95ca3c6affaa" class="image"><a href="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/_2021-01-18__10.09.31.png"><img style="width:528px" src="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/_2021-01-18__10.09.31.png"/></a></figure><p id="d15e43b6-e4eb-419a-b830-9d43ff0b32f9" class="">이런식으로 cuda11.1버전과 함께 gpu가 잡혀야 합니다. 안잡혔다면 1로 돌아가서 지우고 새로 하시거나 빼먹은 과정이 없는지 체크하세요.</p><p id="0fd97146-f269-4557-ae3b-72954fa8def8" class="">
+</p><p id="6a68263a-1843-465f-89db-c48e8d0d9680" class="">한번더 확인하기 위해 아래의 경로로 cd를 통해 이동합니다.</p><pre id="5dcfb8d6-8154-4e5a-98c2-83bf1eeffe0e" class="code"><code>cd /usr/local/</code></pre><p id="f260bfd8-0aef-4b7b-acdd-579146ab100d" class="">이동 후 아래의 명령을 주었을 때, </p><pre id="f0ef1562-2815-4680-840b-166dd2fbee52" class="code"><code>ls -al</code></pre><pre id="4ed0a7f6-ce14-461a-af2a-ea7aa8fcffe7" class="code"><code>lrwxrwxrwx  1 root root   22  1월 18 20:08 cuda -&gt; /etc/alternatives/cuda/
+drwxr-xr-x 14 root root 4096  1월 18 20:07 cuda-11.1/</code></pre><p id="8b5d4103-ad34-42d3-8944-f7fb5a09c8ff" class="">이런 폴더가 감지되어야 합니다. 다시 홈으로 나옵니다. </p><pre id="0c9d2aaf-8304-4442-a435-03e205935b26" class="code"><code>cd ~/</code></pre><p id="34e0786e-9908-49d8-b208-30eefbcc6045" class="">
+</p><p id="546ca70a-6a5a-4126-bac3-e89ed0868480" class="">환경 변수에 cuda11.1을 등록할겁니다. 이 과정을 통해 리눅스가 쿠다를 인식하도록 하는 것입니다.</p><pre id="e19b9c1d-ad93-45fd-8d32-9587fc7d9396" class="code"><code>vim ~/.bashrc</code></pre><p id="016d566e-d9f2-47a4-89f1-ed99a26a5161" class="">vim을 통해 ~/.bashrc 파일에 들어갑니다. vim이 없을 경우 설치하세요.</p><p id="723eaca4-e5b9-4798-8871-927b6e4125e8" class="">파일에 제일 하단부에</p><pre id="48afb61a-7e7d-42ce-9856-1a6d8a34ea58" class="code"><code># NVIDIA CUDA toolkit
+export PATH=/usr/local/cuda-11.1/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.1/lib64</code></pre><p id="f41d5040-15cc-4adc-9c2f-c52dc55b5070" class="">이걸 추가해주세요. vim편집기 사용법은 구글....</p><p id="39b7454c-a778-4c31-8c9b-a53c4f10e40b" class="">저장 후 나와서 환경변수를 등록해주어야 합니다.</p><pre id="7a7dc43e-2369-4d6c-bb72-91aec406d76c" class="code"><code>source ~/.bashrc</code></pre><p id="f44f8304-b394-4351-9e71-2e87683dea40" class="">이 코드를 실행해서 환경변수 등록을 마칩니다.</p><p id="dfe1f775-28d0-48b9-bb1b-38350a4ee2c0" class="">
+</p><p id="f8f799ba-4603-48bd-ba70-8108ce73e326" class="">확인을 위해 아래 코드를 칩니다.</p><pre id="7fe240cb-3a3f-43b1-b9af-a0f77847693a" class="code"><code>nvcc -V
+
+#output
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0</code></pre><p id="a83f81b9-fe32-4050-92b6-6fa24e2c3144" class="">output과 같은 결과가 제대로 나오고 release에 11.1이 출력되면 50%가  끝났습니다.</p><p id="794c5333-166c-4ea0-be30-db5136391d55" class="">
+</p><p id="170f7e67-b9fe-421e-ae14-b79f63a0a655" class="">
+</p><h3 id="7b020150-e5ff-4335-840c-856fd345c081" class="">3. cudnn8.0.5 설치</h3><p id="ea6f39a3-21ce-408f-bf38-31eb75579c9f" class=""><a href="https://developer.nvidia.com/rdp/cudnn-download">https://developer.nvidia.com/rdp/cudnn-download</a></p><p id="63cd4380-d5a7-40b5-956f-0c7d32ea8367" class="">cudnn을 다운 받을 수 있는 공식 홈페이지 입니다. 회원가입과 로그인을 해주세요.</p><p id="d98e98da-3c19-45ee-9f7e-9e8f8bb66e7a" class="">
+</p><ol id="97e6e034-4970-4428-96c8-acee13652ec7" class="numbered-list" start="1"><li>공홈에서 다운받기<figure id="a614a726-1a1a-48c9-bd85-b657b60c46b7" class="image"><a href="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/_2021-01-18__10.19.50.png"><img style="width:480px" src="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/_2021-01-18__10.19.50.png"/></a></figure></li></ol><p id="84efd33d-bd9b-4cc5-ae3a-85e26b26ed7c" class="">정확하게 버전을 확인해서 밑줄 그은 걸 다운로드 해주세요.</p><p id="f072f645-c5a9-4ba5-ba5b-f36a7d3656a3" class="">
+</p><p id="bd457e30-4299-49fd-bc8c-fbc3cd337ac5" class="">2. 사용했던 파일</p><figure id="1e432ee5-2ed2-4cf5-b794-c46fc9c92b83"><div class="source"><a href="https://www.notion.so/5e990bf832b74bff92bf45822e8969fa">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5e990bf8-32b7-4bff-92bf-45822e8969fa/cudnn-11.1-linux-x64-v8.0.5.39.tgz</a></div></figure><p id="0d441843-4450-4470-bf54-ee41e023afc8" class="">이건 제가 다운로드 받은 파일인데, 정 안되실때만 시도하시고 이왕이면 서버에서 다운로드 하시기를 추천드립니다. (느리고 버전이 틀릴 수도 있어요, 래퍼를 쓰는 습관!)</p><p id="a403d655-a30e-4e84-8290-737a236de451" class="">
+</p><p id="98454fcb-75d2-432b-96c5-7e59ac291268" class="">다운로드 이후 서버로 업로드 합니다. 업로드 방법은  <a href="https://www.notion.so/f85d152f56554a419ea0f6e9a629aa4b">scp를 사용하거나</a> 파일질라, cyberduck 등을 활용해주세요.</p><pre id="ff9686ce-39ef-4d30-866b-c6ae0f528778" class="code"><code>cudnn-11.1-linux-x64-v8.0.5.39.tgz </code></pre><p id="833e5193-af2a-45b3-9bd3-3504d570eae1" class="">이 파일이 있는 디렉토리에서 아래 명령어를 실행해주세요.</p><pre id="71fa3d08-ecdd-48f3-b893-558851a7e910" class="code"><code>tar -xzvf cudnn-11.1-linux-x64-v8.0.5.39.tgz #tgz압축 파일을 해제하는 코드
+#필요한 파일을 cuda 경로로 복사
+sudo cp cuda/include/cudnn*.h /usr/local/cuda/include
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+
+#파일의 권한을 변경하여 서버에서 인식할 수 있도록 변경
+sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*</code></pre><p id="9859d26c-ac11-4611-8996-f0f8d86e33b5" class="">
+</p><p id="e44a3b45-66ed-4f06-a32d-f6ce393dc7ea" class="">설치가 완료되었다면, 아래 코드를 실행했을 때, output이 나와야 합니다.</p><pre id="29322e3b-ab8b-4f16-b54a-0f2b1faf1c87" class="code"><code>cat /usr/local/cuda/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
+
+#output, #까지 같이 나올겁니다.
+#define CUDNN_MAJOR 8
+#define CUDNN_MINOR 0
+.
+.
+.
+생략</code></pre><p id="3679ab4a-e1b5-4eb8-b748-f9bf9a973ce3" class="">
+</p><p id="5dabe28b-8445-4718-b83a-b286b070cb71" class="">이제 모든 설치가 완료되었습니다. 이제 텐서플로우 버전을 설치하고 에러를 잡아보겠습니다. 토치만 사용하는 경우 여기서 멈추고 11.1버전에 맞는 파이토치를 깔고 연구를 시작하시면 됩니다.</p><p id="5dd3a46a-7fd2-49b6-afb7-ae87353f20f5" class="">
+</p><h3 id="77c83e62-c239-4063-af07-f1f3b4f0e987" class="">3. 쿠다 11.1에 맞는 텐서플로우 설치하기</h3><p id="168013e9-5322-4985-b026-664ea168a1e4" class="">텐서플로우가 예민해서 아무 버전이나 실행가능하지 않습니다. 그리고 텐서플로우는 globally하게 설치할 경우, 잘못 설치되었을 때, 완벽하게 지우기가 매우매우 어렵습니다. 절대로 globally하게 설치하지 않습니다. 절대로 입니다.</p><p id="854554f8-f303-4d6c-905a-0542213cc269" class="">
+</p><p id="0d71a184-a75d-4238-85d5-afebb8956280" class="">virtualenv를 사용하여 가상환경 하나를 열어줍니다. 가상환경 열줄 모르면 다음 래퍼를 확인하세요.</p><p id="b80c4b11-64ba-43da-b50f-ebf950004c09" class=""><a href="https://www.notion.so/Python-Environment-Setting-Guide-d44e3f16efc2479885e307c214764351">virtualenv사용하여 가상환경 열기</a></p><p id="21fd1433-aede-417c-97d6-c15e385acfd8" class="">
+</p><p id="af8ed1ef-63b4-4927-b816-101c77613ab7" class="">가상환경이 꼭 실행된 상태에서 하세요. 가상환경이 실행중인지 확인하세요. 가상환경에 설치하지 않고 전역으로 설치하다 실수 할 경우, 서버를 엎고 새로 설치해야합니다. </p><pre id="38479be1-b6f6-493c-97ea-a038d4a903b5" class="code"><code>pip3 install tf-nightly==2.5.0.dev20201116</code></pre><p id="b9bb58fa-9a1b-44f9-97cb-9be981a2e9e5" class="">이 코드를 활용해서 제가 안전성을 확인한 버전의 텐서플로우를 설치합니다. tf-nightly는 배포버전입니다. </p><p id="53f36360-390a-4a99-8997-2935a1d23ac6" class="">
+</p><pre id="f5601401-a5e5-4714-a07e-b6ff01583ebe" class="code"><code># 2021-05-29
+# Jiwon Kang
+# 2.5.0 버전이 정식으로 배포됐습니다. 해당 버전으로 설치시 아래 테스트 코드의 리턴값이 True가 나옵니다. 
+pip3 install tensorflow_gpu==2.5.0</code></pre><p id="99a03f9d-1b9e-4c30-b213-618aec3439fe" class="">
+</p><p id="7e9ac173-0a9c-4f8e-b7fe-7dd85256dd13" class="">이렇게 설치를 하고 서버에 python3를 치면 </p><figure id="1d7fca85-9ab0-4f07-8287-bff4e0bd15e1" class="image"><a href="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/Untitled.png"><img style="width:1088px" src="RTX30gpu%20%E1%84%90%E1%85%A6%E1%86%AB%E1%84%89%E1%85%A5%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%87%E1%85%A7%E1%86%A8%20%E1%84%89%2057d9cb2f0fca40f78a9895ca3c6affaa/Untitled.png"/></a></figure><p id="85236a9c-620c-4119-9573-eaf2d121d765" class="">이렇게 나옵니다.</p><p id="1f8f4878-b10d-4eed-ae5b-bc56d27e1749" class="">이 상태로 아래를 한줄씩 쳐서 실행합니다.</p><pre id="653130ee-054c-4d8b-a5e1-b6a499ca5b79" class="code"><code>import tensorflow as tf # 텐서플로우 불러오기
+tf.test.is_gpu_available() # 텐서플로우가 gpu를 사용할 수 있는지 보여주는 코드</code></pre><p id="64d89945-a779-4835-8c58-ac15d01f5a25" class="">분명 설치를 다 했으나 아래의 코드를 치면 False가 나옵니다. 그 이유는 cudnn의 버전 중 일부가 텐서플로우가 찾기를 기대하는 버전보다 뒷 버전이어서 그럽니다. 이제 이 에러를 약간 크랙킹해보겠습니다.</p><p id="45abbf96-dbc5-47ad-97fa-93889a66ed33" class="">
+</p><h3 id="f93dc2b9-8aeb-4c85-90e4-fe997f40790b" class="">4. 쿠다 크래킹을 통해 텐서플로우 인식시키기</h3><p id="86a8e0eb-9cd9-4d9d-939f-0052af0acd0d" class="">False가 나오는 이유는 cudnn의 버전 중 하나가 7이어야 하는데 8로 설치가 되서 발생합니다. 아마 제가 시킨대로 설치하실 경우, 무조건 이게 뜹니다. False가 뜬 곳에 위에 에러 내역을 꼼꼼하게 읽어보시면 파일 하나가 인식이 안되었다는 것을 확인할 수 있습니다. (꼭 읽어보세요. 이거 읽고 크래킹한겁니다!)</p><p id="a2c563a0-5b54-45b9-92e0-ef5f070855bb" class="">
+</p><p id="f58f9887-0eaf-4c0a-92f4-794864c9b0cd" class="">아래 코드를 실행합니다.</p><pre id="b8b29334-adef-4250-bb00-92b47510e15a" class="code"><code>sudo cp /usr/local/cuda-11.1/lib64/libcusolver.so.11 /usr/local/cuda-11.1/lib64/libcusolver.so.10</code></pre><p id="b23009ab-ce1d-49e0-85e7-9b133c36394b" class="">에러 코드를 보면 libcusolver.so.10 파일이 없다라고 나올겁니다. 이 파일이 없으면 가장 비슷한 파일을 이 이름으로 복사해서 인식되도록 만들면 되겠다고 생각해서 가장 비슷한 libcusolver.so.11을 libcusolver.so.10으로 복사해서 libcusolver.so.10파일을 만들어준 것입니다. 이를 통해 텐서플로우를 속일 수 있습니다.</p><p id="4ca5b563-9333-4f8d-9ca3-850033f3c5f6" class="">
+</p><p id="7da62800-ac03-4da3-936f-e47ee3b5dde3" class="">다시 3번으로 돌아가 python3을 켜서 gpu를 사용할 수 있는지 보여주는 코드를 실행해보면 놀랍게도 true가 나오게 됩니다. 이 True를 확인했다면 축하합니다! 설치가 완료된 것입니다. </p></div></article></body></html>
