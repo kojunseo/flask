@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flask 강의 교과서</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Redirect</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -462,17 +462,25 @@ blockquote {
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
 .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
 .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
-
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
-
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
-
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
-
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
 .highlight-default {
 }
 .highlight-gray {
@@ -625,21 +633,7 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="a04b678a-7b26-40a4-ac09-a77aa3968703" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🖥️</span></div><h1 class="page-title">Flask 강의 교과서</h1></header><div class="page-body"><h1 id="27da188d-82a6-45e6-90ec-0fbad833163c" class="">✅ 교과서 목차</h1><p id="77b50ead-0373-4682-8ffb-4edd67baff07" class="">아래 교과서는 명확하게 정보를 찾을 수 있도록 딱딱하게 기술되어 있습니다. </p><a href="https://korkite.github.io/1.Flask%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html"><ol id="8489767f-4016-44f6-8a36-59bfac659660" class="numbered-list" start="0"><li>Flask 시작하기</li></ol></a><a href="https://korkite.github.io/2.Flask%EA%B8%B0%EB%B3%B8%EA%B5%AC%EC%A1%B0_%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0.html"><ol id="8489767f-4016-44f6-8a36-59bfac659660" class="numbered-list" start="1"><li>Flask 기본 구조 세팅</li></ol></a><a href="https://korkite.github.io/3.URL_routes.html"><ol id="17a588ae-8ce9-4d69-8d50-886dfbd66df9" class="numbered-list" start="2"><li>URL Routes (URL 확인하기)</li></ol></a><a href="https://korkite.github.io/4.render_template.html"><ol id="f2f2f80d-42d0-4fef-85ae-2c9569cd76c9" class="numbered-list" start="3"><li>Render Templates (html 내보내기)</li></ol></a><a href="https://korkite.github.io/5.Parameterize.html"><ol id="97922c4f-40d3-40b2-b2a0-82499b3f4231" class="numbered-list" start="4"><li>Parameterizing (파라미터로 정보주기)</li></ol></a><a href="https://korkite.github.io/6.url_for.html"><ol id="15a8fdc7-dd20-497d-b8d2-843df592487e" class="numbered-list" start="5"><li>url_for (Url을 함수화하기)</li></ol></a><a href="https://korkite.github.io/7.redirect.html"><ol id="d67adcbf-a303-46e7-bc9c-72f51648c18f" class="numbered-list" start="6"><li>Redirection (돌려보내기)</li></ol></a><a href="https://korkite.github.io/8.FlaskHTML.html.html"><ol id="de81d191-a686-40de-8ac7-38c8d3c39a95" class="numbered-list" start="7"><li>Flask HTML </li></ol></a><ol id="139cf625-e196-4ba9-9973-62c4ec7ccab8" class="numbered-list" start="8"><li>Request (정보 입력하기)</li></ol><ol id="fcaf8980-575f-453d-8945-f3377b388eca" class="numbered-list" start="9"><li>Error Handling (에러 처리)</li></ol><ol id="4245a031-1717-40bc-9181-36e7e1af600a" class="numbered-list" start="10"><li>Session (로그인 관련 기능 확인하기)</li></ol><ol id="df168a17-2754-4290-b3cb-cbd0c89e279c" class="numbered-list" start="11"><li>POST, GET 파악하기</li></ol><ol id="2926a641-6e93-4382-b894-596526b0adf0" class="numbered-list" start="12"><li>업로드, 다운로드 기능 만들기</li></ol><p id="8eca350c-e7f9-44a9-b3c0-c80da9000112" class="">
-</p><h1 id="4d162016-bfb4-495b-a020-e7c46013ea7f" class="">✅ 제 강의는 아래와 같습니다!</h1><h3 id="f7a9860f-631d-402a-a8bb-fba6601aca0f" class="">Goorm에서 제 강의를 찾아보실 수 있습니다!</h3><p id="1d9c8747-2673-411c-965a-cc3780063d35" class="">Flask의 기본기를 다질 수 있는 강의를 준비해보았습니다. 같이 시작해보아요! 
-파이썬만 알아도 편하게 웹을 만들 수 있습니다.</p><p id="f2b4ed77-18fc-48fa-bc71-a1c422efe324" class="">
-</p><h3 id="9b8e5310-5fde-4eef-8cf3-83776266e954" class="">Flask(플라스크)가 무엇인가요?</h3><p id="d6e9fead-b035-4d6e-ba18-4217587bff5a" class="">Flask(플라스크)는 마이크로 웹프레임워크 입니다. 
-파이썬으로 웹을 만들 수 있는 대표적인 Django(장고)는 페이지 하나는 띄우는 데까지
-너무 많은 시간이 소요됩니다.</p><p id="88460544-4df1-44b9-9bdc-34df1d32e67e" class="">반면 Flask(플라스크)의 경우, 첫 페이지를 띄우는 데까지 코드 5줄이면 충분합니다.
-너무나 매력적인 Flask를 저와 함께 시작해보아요!</p><p id="54351484-cd5d-48c6-a49d-729a0fd1c28e" class="">
-</p><h3 id="99214324-c0a7-444b-9c5c-709c4398bbac" class="">누가 강의하나요? 어떻게 강의 하나요?</h3><p id="4baca233-a3fb-4dd8-a421-a7a7fbc0d94f" class="">현재 성균관대학교 인공지능융합전공을 졸업하고, 동 대학원에 재학 중인 <strong>고준서,
-</strong>제가 직접 책을 작성하고 강의합니다. 수십개의 Flask프로젝트를 진행했고, 
-저자가 이해한 방식을 그대로 전수해드립니다.</p><p id="e4554e2e-9ac1-4efb-9536-8397a8e354e9" class="">영어 도큐먼트를 찾는 방법, 영어가 어려운 분들을 위해 제가 직접 작성한 도큐먼트를
-읽는 방법 등을 모두 강의합니다.</p><p id="be20d584-c21d-4279-bb14-81eab14b3ae8" class="">
-</p><p id="521741a0-5a68-4646-955b-c92bfe0037f7" class="">
-</p><p id="7a043cbf-9d30-4f3a-a117-8b8e10351803" class="">
-</p><p id="0ba6de89-1737-45e2-a634-7642332f9844" class="">
-</p><p id="99033793-f5ce-476e-8e5f-8a28550b87a9" class="">
-</p><p id="928afe14-7702-4eb4-a355-ff443ea4f9ad" class="">
-</p><p id="fdfbeff0-82cf-4fbb-a9f4-a27dfcf28ca5" class="">
-</p></div></article></body></html>
+</style></head><body><article id="9f54114a-e8c1-46be-b7bb-a327026686b5" class="page sans"><header><h1 class="page-title">Redirect</h1></header><div class="page-body"><p id="374bb1da-ddbc-424a-83d6-4e6eb228f592" class="">
+</p><p id="58b656ca-e407-4196-84c1-49180942dc25" class=""><code>redirect</code>는 페이지를 이동시킬 때 사용할 수 있습니다. 예를 들어 어떤 동작을 수행한 이후에 특정 페이지도 돌려보내는 등의 기능을 사용하기 위해 <code>redirect</code>을 활용합니다.</p><p id="6d0024aa-8d11-47d8-964a-3e5a5211cb3b" class="">
+</p><h2 id="6686e3f5-2dd0-47f7-a18a-52888ff1d0ff" class="">Code Example</h2><p id="999b0ceb-50b4-4397-94f3-9dd23e3fb19e" class="">redirect는 보통 url_for와 함께 사용합니다. </p><p id="b465972d-7188-46e2-bb2c-8084e072d564" class="">
+</p><pre id="2ca4edb6-a38f-42f1-9461-63d7f6edf233" class="code"><code>redirect(url_for(&#x27;index&#x27;))</code></pre><p id="e0613efb-5f24-403f-853c-7f19ea1285c4" class="">이런식으로 활용이 가능합니다. index라는 함수로 linking하는 url을 생성하고, redirect를 사용하여 연결해주면 됩니다.</p><p id="43f5e66e-0abb-4c9d-9af0-ad0a8071d4b9" class="">
