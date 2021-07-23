@@ -634,6 +634,6 @@ blockquote {
 }
 	
 </style></head><body><article id="9f54114a-e8c1-46be-b7bb-a327026686b5" class="page sans"><header><h1 class="page-title">Redirect</h1></header><div class="page-body"><p id="374bb1da-ddbc-424a-83d6-4e6eb228f592" class="">
-</p><p id="58b656ca-e407-4196-84c1-49180942dc25" class=""><code>redirect</code>는 페이지를 이동시킬 때 사용할 수 있습니다. 예를 들어 어떤 동작을 수행한 이후에 특정 페이지도 돌려보내는 등의 기능을 사용하기 위해 <code>redirect</code>을 활용합니다.</p><p id="6d0024aa-8d11-47d8-964a-3e5a5211cb3b" class="">
+</p><p id="58b656ca-e407-4196-84c1-49180942dc25" class=""><code>redirect</code>는 페이지를 이동시킬 때 사용할 수 있습니다. 예를 들어 어떤 동작을 수행한 이후에 특정 페이지도 돌려보내는 등의 기능을 사용하기 위해 <code>redirect</code>을 활용합니다.</p><p id="6d0024aa-8d11-47d8-964a-3e5a5211cb3b" class=""><p id="6d0024aa-8d11-47d8-964a-3e5a5211cb3b" class="">먼저 redirect를 아래와 같이 import해주세요</p><pre id="7cbc9239-64a9-4b10-80ee-9e8ae427b1bd" class="code"><code>from flask import Flask, render_template, url_for, redirect</code></pre><p id="dbc0ecdb-3146-48d6-9cc4-c3cec68d586f" class=""></p>
 </p><h2 id="6686e3f5-2dd0-47f7-a18a-52888ff1d0ff" class="">Code Example</h2><p id="999b0ceb-50b4-4397-94f3-9dd23e3fb19e" class="">redirect는 보통 url_for와 함께 사용합니다. </p><p id="b465972d-7188-46e2-bb2c-8084e072d564" class="">
 </p><pre id="2ca4edb6-a38f-42f1-9461-63d7f6edf233" class="code"><code>redirect(url_for(&#x27;index&#x27;))</code></pre><p id="e0613efb-5f24-403f-853c-7f19ea1285c4" class="">이런식으로 활용이 가능합니다. index라는 함수로 linking하는 url을 생성하고, redirect를 사용하여 연결해주면 됩니다.</p><p id="43f5e66e-0abb-4c9d-9af0-ad0a8071d4b9" class="">
